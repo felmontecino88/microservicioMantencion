@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Microservicio Mantencion (8089)",
+            "request": "launch",
+            "mainClass": "cl.duoc.mineria.mantencion.MantencionApplication",
+            "env": {
+                "NEON_DB_URL": "jdbc:postgresql://ep-patient-frost-aq36cixk-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+                "NEON_DB_USER": "neondb_owner",
+                "NEON_DB_PASS": "npg_5PFs2GmDXuey"
+            }
+        }
+    ]
+}

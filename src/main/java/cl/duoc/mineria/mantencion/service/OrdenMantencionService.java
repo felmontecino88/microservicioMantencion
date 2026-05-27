@@ -14,12 +14,27 @@ import cl.duoc.mineria.mantencion.repository.OrdenMantencionRepository;
 public class OrdenMantencionService {
 
     private final OrdenMantencionRepository repository;
+    private final ExternalValidationService validationService;
 
-    public OrdenMantencionService(OrdenMantencionRepository repository) {
+    public OrdenMantencionService(OrdenMantencionRepository repository, ExternalValidationService validationService) {
         this.repository = repository;
+        this.validationService = validationService;
     }
 
     public OrdenMantencion crearOrden(OrdenMantencion orden) {
+
+        boolean usuarioValido = validationService.VerificarUsuarioExiste(orden.getReportadoPorUsuarioId());
+        if (!usuarioValido) {
+            throw new MaintenanceNotFoundException("No se puede registrar la orden de taller porque el ID de usuario " 
+            + orden.getReportadoPorUsuarioId() + " no está registrado en el sistema de personal.");
+        }
+
+        boolean equipoValido = validationService.VerificarEquipoExiste(orden.getEquipoId());
+        if (!equipoValido) {
+            throw new MaintenanceNotFoundException("No se puede registrar la pana porque el ID de equipo "
+            + orden.getEquipoId() + " no existe en los inventarios de la mina.");
+        }
+
         return repository.save(orden);
     }
 
